@@ -35,7 +35,10 @@ SECRET_KEY = 'django-insecure-cgo$0t_kvg29u-=5pfrej57vm$e!st0@ytdf5@rjj2mvl#y!6_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '8000-saraabbasin-simplenotep-mybof7hzgwz.ws.codeinstitute-ide.net',
+
+]
 
 
 # Application definition
@@ -93,6 +96,9 @@ DATABASES = {
     }
 }
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://8000-saraabbasin-simplenotep-mybof7hzgwz.ws.codeinstitute-ide.net'
+]
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
