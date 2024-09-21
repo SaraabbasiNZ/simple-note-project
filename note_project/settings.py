@@ -34,7 +34,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     '8000-saraabbasin-simplenotep-mybof7hzgwz.ws.codeinstitute-ide.net',
@@ -92,8 +92,8 @@ WSGI_APPLICATION = 'note_project.wsgi.application'
 
 
 CORS_ALLOWED_ORIGINS = [
-"https://5173-saraabbasin-reactnoteap-ifsa0astjlu.ws.codeinstitute-ide.net",
-"https://5173-saraabbasin-reactnoteap-ifsa0astjlu.ws.codeinstitute-ide.net",
+'https://5173-saraabbasin-reactnoteap-ifsa0astjlu.ws.codeinstitute-ide.net',
+'https://8000-saraabbasin-simplenotep-mybof7hzgwz.ws.codeinstitute-ide.net',
 ]
 
 # Database
@@ -119,9 +119,9 @@ else:
     }
     print('connected')
 
-CSRF_TRUSTED_ORIGINS = [
-    'https://8000-saraabbasin-simplenotep-mybof7hzgwz.ws.codeinstitute-ide.net'
-]
+# CSRF_TRUSTED_ORIGINS = [
+#     'https://8000-saraabbasin-simplenotep-mybof7hzgwz.ws.codeinstitute-ide.net'
+# ]
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
