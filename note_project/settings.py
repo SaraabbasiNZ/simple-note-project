@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+import dj_database_url
 
 if os.path.exists('env.py'):
     import env
@@ -30,13 +31,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-cgo$0t_kvg29u-=5pfrej57vm$e!st0@ytdf5@rjj2mvl#y!6_'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = [
     '8000-saraabbasin-simplenotep-mybof7hzgwz.ws.codeinstitute-ide.net',
+    'localhost', 'simple-note-project.herokuapp.com',
 
 ]
 
@@ -54,11 +56,13 @@ INSTALLED_APPS = [
     'cloudinary',
     'noteapp',
     'rest_framework',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -87,15 +91,33 @@ TEMPLATES = [
 WSGI_APPLICATION = 'note_project.wsgi.application'
 
 
+CORS_ALLOWED_ORIGINS = [
+"https://5173-saraabbasin-reactnoteap-ifsa0astjlu.ws.codeinstitute-ide.net",
+"https://5173-saraabbasin-reactnoteap-ifsa0astjlu.ws.codeinstitute-ide.net",
+]
+
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+if 'DEV' in os.environ:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
+    }
+    print('connected')
 
 CSRF_TRUSTED_ORIGINS = [
     'https://8000-saraabbasin-simplenotep-mybof7hzgwz.ws.codeinstitute-ide.net'
