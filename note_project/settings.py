@@ -90,10 +90,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'note_project.wsgi.application'
 
+CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOWED_ORIGINS = [
 'https://5173-saraabbasin-reactnoteap-ifsa0astjlu.ws.codeinstitute-ide.net',
-'https://8000-saraabbasin-simplenotep-mybof7hzgwz.ws.codeinstitute-ide.net',
 ]
 
 CORS_ALLOW_HEADERS = [
@@ -126,10 +126,10 @@ else:
     }
     print('connected')
 
-CSRF_TRUSTED_ORIGINS = [
-    'https://8000-saraabbasin-simplenotep-mybof7hzgwz.ws.codeinstitute-ide.net',
-    'https://5173-saraabbasin-reactnoteap-ifsa0astjlu.ws.codeinstitute-ide.net',
-]
+# CSRF_TRUSTED_ORIGINS = [
+#     'https://8000-saraabbasin-simplenotep-mybof7hzgwz.ws.codeinstitute-ide.net',
+#     'https://5173-saraabbasin-reactnoteap-ifsa0astjlu.ws.codeinstitute-ide.net',
+# ]
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
