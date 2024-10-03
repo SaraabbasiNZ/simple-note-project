@@ -6,6 +6,14 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.db.models import Q
 from rest_framework import status
+from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth.models import User
+from rest_framework.permissions import AllowAny
+from rest_framework.decorators import permission_classes
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.models import User
+from rest_framework import status
+
 
 # Create your views here.
 
@@ -23,6 +31,45 @@ def fetch_notes():
         return response.json()
     else:
         return {"error": "Unable to fetch notes"}
+
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def register_user(request):
+    try:
+        data = request.data
+        username = data.get('username')
+        email = data.get('email')
+        password = data.get('password')
+
+        # Check for unique username and email
+        if User.objects.filter(username=username).exists():
+            return Response({'error': 'Username already taken.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        if User.objects.filter(email=email).exists():
+            return Response({'error': 'Email already registered.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Create user
+        user = User.objects.create(
+            username=username,
+            email=email,
+            password=make_password(password)
+        )
+        refresh = RefreshToken.for_user(user)
+        return Response({
+            'refresh': str(refresh),
+            'access': str(refresh.access_token),
+            'user': {
+                'id': user.id,
+                'username': user.username,
+                'email': user.email,
+            }
+        }, status=status.HTTP_201_CREATED)
+    except Exception as e:
+        logger.error(f"Error in register_user: {e}")
+        return Response({'error': 'An error occurred during registration.'}, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 
