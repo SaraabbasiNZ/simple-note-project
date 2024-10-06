@@ -39,15 +39,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     '8000-saraabbasin-simplenotep-mybof7hzgwz.ws.codeinstitute-ide.net',
     'localhost',
     '127.0.0.1',
-    'localhost', 'simple-note-project.herokuapp.com',
-    'https://git.heroku.com/simple-note-project.git',
-
+    'simple-note-project.herokuapp.com',
 ]
 
 
@@ -67,6 +65,9 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'dj_rest_auth.registration',
     'corsheaders',
+    'rest_framework.authtoken', 
+    'dj_rest_auth',
+
 ]
 
 REST_FRAMEWORK = {
@@ -111,10 +112,31 @@ TEMPLATES = [
 WSGI_APPLICATION = 'note_project.wsgi.application'
 
 # CORS settings
-CORS_ALLOW_ALL_ORIGINS = True
+# CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOWED_ORIGINS = [
 'https://5173-saraabbasin-reactnoteap-ifsa0astjlu.ws.codeinstitute-ide.net',
+]
+
+if 'CLIENT_ORIGIN' in os.environ:
+    CORS_ALLOWED_ORIGINS = [
+        os.environ.get('CLIENT_ORIGIN')
+    ]
+
+if 'CLIENT_ORIGIN_DEV' in os.environ:
+    extracted_url = re.match(
+        r'^.+-', os.environ.get('CLIENT_ORIGIN_DEV', ''), re.IGNORECASE
+    ).group(0)
+    CORS_ALLOWED_ORIGIN_REGEXES = [
+        rf"{extracted_url}(eu|us)\d+\w\.gitpod\.io$",
+    ]
+
+CORS_ALLOW_CREDENTIALS = True
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://8000-saraabbasin-simplenotep-mybof7hzgwz.ws.codeinstitute-ide.net',
+    'https://5173-saraabbasin-reactnoteap-ifsa0astjlu.ws.codeinstitute-ide.net',
+    'https://git.heroku.com/simple-note-project.git',
 ]
 
 # CORS_ALLOW_HEADERS = [
@@ -147,10 +169,7 @@ else:
     }
     print('connected')
 
-CSRF_TRUSTED_ORIGINS = [
-    'https://8000-saraabbasin-simplenotep-mybof7hzgwz.ws.codeinstitute-ide.net',
-    'https://5173-saraabbasin-reactnoteap-ifsa0astjlu.ws.codeinstitute-ide.net',
-]
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -227,10 +246,11 @@ LOGGING = {
     }
 }
 
+
 from datetime import timedelta
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),  # Customize as needed
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),  # Customize as needed
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': True,
