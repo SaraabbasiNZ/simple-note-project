@@ -45,7 +45,7 @@ ALLOWED_HOSTS = [
     '8000-saraabbasin-simplenotep-mybof7hzgwz.ws.codeinstitute-ide.net',
     'localhost',
     '127.0.0.1',
-    'simple-note-project.herokuapp.com',
+    'simple-note-project-6d9214a43ff0.herokuapp.com',
 ]
 
 
